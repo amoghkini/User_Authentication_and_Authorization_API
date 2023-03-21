@@ -1,0 +1,5 @@
+{
+    "port": 5000,
+    "logFileDir": "F:/Projects/Upload to github/2021/User_Authentication_and_Authorization_API/logs",
+    "env": "dev"
+}
