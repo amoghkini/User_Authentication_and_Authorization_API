@@ -20,16 +20,29 @@ class SignUpAPI(MethodView):
     def post(self):
         # Parse the JSON request data
         data = request.get_json()
-        username = data['username']
-        email = data['email']
+        try:
+            first_name = data.get('first_name')
+            last_name = data.get('last_name')
+            email = data.get('email')
+            password = data.get('password')
+            confirm_password = data.get('confirm_password')
+            mobile_no = data.get('mobile_no')
+            date_of_birth = data.get('date_of_birth')
 
-        # Insert the new user into the database
-        query = f"INSERT INTO users (username, email) VALUES ('{username}', '{email}')"
-        with engine.connect() as connection:
-            connection.execute(query)
-
-        # Return a success message
-        return jsonify({'message': 'User created successfully'})
+            if len(email) < 10:
+                raise ValueError("Invalid email address")
+            
+            # Insert the new user into the database
+            query = f"INSERT INTO users (username, email) VALUES ('{first_name}', '{email}')"
+            
+            
+            
+            
+            # Return a success message
+            return jsonify({'message': 'User created successfully'})
+        except Exception as e:
+            print(e)
+            return jsonify({"Error":str(e)})
 
 '''
 #Sample code to read from db

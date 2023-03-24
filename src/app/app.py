@@ -1,7 +1,7 @@
 import os
 from flask import Flask, session, g
 
-from config.config import get_server_config, BaseConfig, DevConfig, ProdConfig, PROJECT_ROOT, TEMPLATE_FOLDER, STATIC_FOLDER, get_env
+from config.config import get_server_config, BaseConfig, DevConfig, ProdConfig, TEMPLATE_FOLDER, STATIC_FOLDER, get_env
 from database.pgsql import Session
 from utils.logger import config_root_logger
 
