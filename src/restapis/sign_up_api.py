@@ -1,5 +1,10 @@
-from flask import jsonify, request
+from flask import jsonify, request, g, make_response
 from flask.views import MethodView
+from sqlalchemy import text
+
+from psycopg2.errorcodes import UNIQUE_VIOLATION
+from psycopg2 import errors
+
 
 engine = None
 
@@ -8,6 +13,7 @@ class SignUpAPI(MethodView):
         # Retrieve all users from the database
         query = "SELECT * FROM users"
         return query
+        '''
         with engine.connect() as connection:
             result = connection.execute(query)
             users = result.fetchall()
@@ -16,7 +22,8 @@ class SignUpAPI(MethodView):
         users_dict = [{'id': u[0], 'username': u[1], 'email': u[2]}
                       for u in users]
         return jsonify(users_dict)
-
+        '''
+        
     def post(self):
         # Parse the JSON request data
         data = request.get_json()
@@ -33,34 +40,61 @@ class SignUpAPI(MethodView):
                 raise ValueError("Invalid email address")
             
             # Insert the new user into the database
-            query = f"INSERT INTO users (username, email) VALUES ('{first_name}', '{email}')"
+            try:
+                query = text('INSERT INTO backtest.users (first_name, last_name, email_id, password, mobile_no) VALUES (:first_name, :last_name, :email_id, :password, :mobile_no)')
+                g.session.execute(query, {'first_name': first_name, 'last_name': last_name, 'email_id': email, 'password': password, 'mobile_no': mobile_no})
+                g.session.commit()
             
+            except errors.UniqueViolation:
+                print("UNIQUE VIOLATION")
+                raise ValueError("The email address or mobile number is already exist.")
             
+            except errors.lookup(UNIQUE_VIOLATION):
+                print("Duplicate entry")
+                #g.session.rollback()
+                raise ValueError("The email address or mobile number is already exist.")
             
-            
+            except Exception as e:
+                '''
+                from psycopg2._psycopg import sqlstate_errors
+                print(sqlstate_errors.get('23505'))
+                '''
+                
+                g.session.rollback()
+                print("EXCEPTION==",e)
+                raise ValueError("Error while writing the data... Please retry after sometime.")
+
             # Return a success message
-            return jsonify({'message': 'User created successfully'})
+            return make_response(jsonify({'status':'success',
+                            'message': 'User created successfully',
+        
+                            'data': []}), 201)
         except Exception as e:
             print(e)
-            return jsonify({"Error":str(e)})
+            return make_response(jsonify({'status': 'error',
+                            'message': str(e),
+                            'data':None}), 200)
 
+
+#### Curl requests
+# Get
 '''
-#Sample code to read from db
-@app.route('/')
-def index():
-    # Retrieve user input from the query string
-    user_input = request.args.get('user_input')
+curl --location '127.0.0.1:5000/signup' \
+--header 'Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlfQ.ZB4G7A.y2lhf_0MRCrashgOEAt-KjdllNY'
+'''
 
-    # Use a parameterized query to avoid SQL injection
-    query = text('SELECT * FROM my_table WHERE column1 = :input')
-    result = g.session.execute(query, {'input': user_input})
-
-    # Retrieve the rows returned by the query
-    rows = result.fetchall()
-
-    # Process the rows as needed
-    for row in rows:
-        print(row)
-
-    return 'Hello World!'
+# Post
+'''
+curl --location '127.0.0.1:5000/signup' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlfQ.ZB4I3g.AZxmKk56T4A6p3pKqLPBeZrbQdg' \
+--data-raw '{
+    "first_name" : "test_first_name",
+    "last_name" : "test_last_name",
+    "email" : "test_email",
+    "password" : "password@123",
+    "confirm_password" : "password@123",
+    "mobile_no" : "9876543210",
+    "date_of_birth" : "1970-01-31"
+}'
 '''

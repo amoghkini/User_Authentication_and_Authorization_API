@@ -2,7 +2,7 @@ import os
 from flask import Flask, session, g
 
 from config.config import get_server_config, BaseConfig, DevConfig, ProdConfig, TEMPLATE_FOLDER, STATIC_FOLDER, get_env
-from database.pgsql import Session
+from database.pgsql import session
 from utils.logger import config_root_logger
 
 
@@ -39,7 +39,12 @@ def configure_app(app: Flask, config_object: BaseConfig) -> None:
         session.modified = True     # reset the session timer on each new request
 
         # Create Session of the SQL Alchemy engine
-        g.session = Session()
+        g.session = session()
+    
+    #@app.after_request
+    #def after_request(response):
+    #    print("After response")
+        
         
     @app.teardown_appcontext
     def shutdown_session(exception=None):
