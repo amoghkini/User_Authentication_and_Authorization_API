@@ -1,7 +1,9 @@
+from flask import jsonify
 from flask.views import MethodView
-
 
 class IndexAPI(MethodView):
 
     def get(self):
-        return "This is public page"
+        return jsonify({'status': 'success',
+                        'message': 'This is public page',
+                        'data': []})

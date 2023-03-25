@@ -27,7 +27,11 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+# User added ignores
+*.xlsx
 *.txt
+main_old.py
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
