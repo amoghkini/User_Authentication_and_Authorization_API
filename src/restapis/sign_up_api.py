@@ -1,28 +1,12 @@
 from flask import jsonify, request, g, make_response
 from flask.views import MethodView
-from sqlalchemy import text
-
 from psycopg2.errorcodes import UNIQUE_VIOLATION
 from psycopg2 import errors
+from sqlalchemy import text
 
+from user.user import User
 
-engine = None
-
-class SignUpAPI(MethodView):
-    def get(self):
-        # Retrieve all users from the database
-        query = "SELECT * FROM users"
-        return query
-        '''
-        with engine.connect() as connection:
-            result = connection.execute(query)
-            users = result.fetchall()
-
-        # Convert the users to a JSON response
-        users_dict = [{'id': u[0], 'username': u[1], 'email': u[2]}
-                      for u in users]
-        return jsonify(users_dict)
-        '''
+class SignUpAPI(MethodView):      
         
     def post(self):
         # Parse the JSON request data
@@ -31,20 +15,21 @@ class SignUpAPI(MethodView):
             first_name = data.get('first_name')
             last_name = data.get('last_name')
             email = data.get('email')
-            password = data.get('password')
-            confirm_password = data.get('confirm_password')
-            mobile_no = data.get('mobile_no')
-            date_of_birth = data.get('date_of_birth')
-
-            if len(email) < 10:
-                raise ValueError("Invalid email address")
             
             # Insert the new user into the database
             try:
+                user = User(email, first_name, last_name)
+                user.password = data.get('password')
+                user.confirm_password = data.get('confirm_password')
+                user.mobile_no = data.get('mobile_no')
+                user.date_of_birth = data.get('date_of_birth')
+                
                 query = text('INSERT INTO backtest.users (first_name, last_name, email_id, password, mobile_no) VALUES (:first_name, :last_name, :email_id, :password, :mobile_no)')
-                g.session.execute(query, {'first_name': first_name, 'last_name': last_name, 'email_id': email, 'password': password, 'mobile_no': mobile_no})
+                g.session.execute(query, {'first_name': first_name, 'last_name': last_name,
+                                  'email_id': email, 'password': user.password, 'mobile_no': user.mobile_no})
                 g.session.commit()
             
+            # UniqueViolation exception not working as of now. Will check this later.
             except errors.UniqueViolation:
                 print("UNIQUE VIOLATION")
                 raise ValueError("The email address or mobile number is already exist.")
@@ -77,11 +62,6 @@ class SignUpAPI(MethodView):
 
 
 #### Curl requests
-# Get
-'''
-curl --location '127.0.0.1:5000/signup' \
---header 'Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlfQ.ZB4G7A.y2lhf_0MRCrashgOEAt-KjdllNY'
-'''
 
 # Post
 '''
