@@ -1,6 +1,6 @@
 from app.app import create_app
 from config.config import get_server_config
-from restapis import admin_api, home_api, index_api, login_api, logout_api, sign_up_api
+from restapis import admin_api, home_api, index_api, login_api, logout_api, sign_up_api, verify_api
 
 app = create_app()
 
@@ -10,6 +10,7 @@ app.add_url_rule("/home", view_func=home_api.HomeAPI.as_view("home_api"))
 app.add_url_rule("/login", view_func=login_api.LoginAPI.as_view("login_api"))
 app.add_url_rule("/logout", view_func=logout_api.LogoutAPI.as_view("logout_api"))
 app.add_url_rule("/signup", view_func=sign_up_api.SignUpAPI.as_view("sign_up_api"))
+app.add_url_rule("/verify/<token>", view_func=verify_api.VerifyUserAPI.as_view("verify_email_api"))
 
 
 server_config = get_server_config()
