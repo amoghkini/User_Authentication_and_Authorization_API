@@ -44,7 +44,8 @@ def configure_app(app: Flask, config_object: BaseConfig) -> None:
     #@app.after_request
     #def after_request(response):
     #    print("After response")
-        
+    
+    
         
     @app.teardown_appcontext
     def shutdown_session(exception=None):

@@ -7,9 +7,11 @@ class UserMethods:
         return
     
     @staticmethod
-    def get_email_verification_token(user_id, secret_key='secret_key', epires_sec = 10):
+    def generate_token(user_id, secret_key='secret_key', epires_sec = 100):
         """
-        Generates a time-limited token for verifying the email address of a user.
+        Generates a time-limited token. It can be used for following instances.
+        1. Verifying the email address of a user.
+        2. To reset the password.
 
         Args:
             user_id (str): The unique email address of the user which needs to be verified.
@@ -27,9 +29,9 @@ class UserMethods:
         return s.dumps({'user_id':user_id}).decode('utf-8') 
     
     @staticmethod
-    def decode_verification_token(token, secret_key='secret_key'):
+    def decode_token(token, secret_key='secret_key'):
         """
-        Decodes a reset token to retrieve the user ID of the associated user.
+        Decodes a token to retrieve the user ID of the associated user.
 
         Args:
             token (str): The reset token to decode.

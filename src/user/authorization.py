@@ -17,6 +17,11 @@ class Authorization():
                 
                 try:
                     authorization = request.headers.get("authorization")
+                    if not authorization:
+                        return make_response(jsonify({'status': 'error',
+                                                      'message': 'Invalid token or token not provided',
+                                                      'data': None}), 422)
+                        
                     if re.match("^Bearer *([^ ]+) *$", authorization, flags=0):
                         token = authorization.split(" ")[1]
                         try:
@@ -40,7 +45,7 @@ class Authorization():
                                 return func(*args)
                             else:
                                 return make_response(jsonify({'status': 'error',
-                                                              'message': 'Invalid Role',
+                                                              'message': 'Invalid role',
                                                               'data': None}), 422)
                         else:
                             return make_response(jsonify({'status': 'error',
