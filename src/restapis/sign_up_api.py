@@ -1,10 +1,11 @@
-from flask import jsonify, request, g, make_response
+from flask import jsonify, request, g, make_response, url_for
 from flask.views import MethodView
 from psycopg2.errorcodes import UNIQUE_VIOLATION
 from psycopg2 import errors
 from sqlalchemy import text
 
 from user.user import User
+from user.user_methods import UserMethods
 
 class SignUpAPI(MethodView):      
         
@@ -28,7 +29,10 @@ class SignUpAPI(MethodView):
                 g.session.execute(query, {'first_name': first_name, 'last_name': last_name,
                                   'email_id': email, 'password': user.password, 'mobile_no': user.mobile_no})
                 g.session.commit()
-            
+
+                verify_token = UserMethods.get_email_verification_token(email)
+                link = f'''Click here to verify the account: {url_for('verify_email_api', token=verify_token, _external=True)}'''
+                print("Link", link)
             # UniqueViolation exception not working as of now. Will check this later.
             except errors.UniqueViolation:
                 print("UNIQUE VIOLATION")

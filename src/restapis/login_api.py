@@ -9,8 +9,6 @@ from psycopg2 import errors
 
 
 class LoginAPI(MethodView):
-    def get(self):
-        return "get method"
     
     def post(self):
         # Parse the JSON request data
@@ -62,7 +60,7 @@ class LoginAPI(MethodView):
             print(e)
             return make_response(jsonify({'status': 'error',
                                           'message': str(e),
-                                          'data': None}), 200 if http_status_code == None else http_status_code)
+                                          'data': None}), 401 if http_status_code == None else http_status_code)
 
 # Curl requests
 
