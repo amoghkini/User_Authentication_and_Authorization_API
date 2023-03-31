@@ -30,7 +30,7 @@ class SignUpAPI(MethodView):
                                   'email_id': email, 'password': user.password, 'mobile_no': user.mobile_no})
                 g.session.commit()
 
-                verify_token = UserMethods.get_email_verification_token(email)
+                verify_token = UserMethods.generate_token(email)
                 link = f'''Click here to verify the account: {url_for('verify_email_api', token=verify_token, _external=True)}'''
                 print("Link", link)
             # UniqueViolation exception not working as of now. Will check this later.
