@@ -45,7 +45,7 @@ def configure_app(app: Flask, config_object: BaseConfig) -> None:
     #def after_request(response):
     #    print("After response")
     
-    
+    # Need to pass the auth token in response header for each request.
         
     @app.teardown_appcontext
     def shutdown_session(exception=None):
