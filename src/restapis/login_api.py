@@ -54,7 +54,7 @@ class LoginAPI(MethodView):
             # Return a success message
             return make_response(jsonify({'status': 'success',
                                           'message': 'User logged in successfully',
-                                          "token": auth_token if auth_token is not None else "",
+                                          "token": auth_token if auth_token is not None else "",  # Frontend needs to store this token in their session and send it on each new request.
                                           'data': []}), 200)
         except Exception as e:
             print(e)
@@ -63,4 +63,3 @@ class LoginAPI(MethodView):
                                           'data': None}), 401 if http_status_code == None else http_status_code)
 
 # Curl requests
-

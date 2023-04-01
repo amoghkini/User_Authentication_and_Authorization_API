@@ -1,8 +1,11 @@
 from flask import session, jsonify, make_response
 from flask.views import MethodView
 
+from user.authorization import Authorization as auth
+
 class LogoutAPI(MethodView):
     
+    @auth.auth_required()
     def get(self):
         try:
             session.pop('user',None)

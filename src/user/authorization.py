@@ -21,7 +21,7 @@ class Authorization():
                         return make_response(jsonify({'status': 'error',
                                                       'message': 'Invalid token or token not provided',
                                                       'data': None}), 422)
-                        
+                            
                     if re.match("^Bearer *([^ ]+) *$", authorization, flags=0):
                         token = authorization.split(" ")[1]
                         try:

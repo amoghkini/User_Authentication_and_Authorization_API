@@ -6,12 +6,20 @@ from sqlalchemy import text
 
 from user.user import User
 from user.user_methods import UserMethods
+from user.user_validations import SignUpUser
 
 class SignUpAPI(MethodView):      
         
     def post(self):
         # Parse the JSON request data
+        
         data = request.get_json()
+        
+        errors = SignUpUser().validate(data)
+        
+        if errors:
+            return errors, 422
+        
         try:
             first_name = data.get('first_name')
             last_name = data.get('last_name')
