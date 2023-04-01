@@ -23,7 +23,7 @@ class VerifyUserAPI(MethodView):
 
         if user:
             return make_response(jsonify({'status': 'success',
-                        'message': 'Account verified',
+                        'message': 'Account verified!!! Redirecting user to login page!',
                         'data': []}), 200)
         else:
             return make_response(jsonify({'status': 'error',
