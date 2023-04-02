@@ -6,6 +6,8 @@ from flask import request, make_response, g, jsonify
 from functools import wraps
 from sqlalchemy import text
 
+from user.user_methods import UserMethods
+
 class Authorization():
 
     @staticmethod
@@ -25,14 +27,13 @@ class Authorization():
                     if re.match("^Bearer *([^ ]+) *$", authorization, flags=0):
                         token = authorization.split(" ")[1]
                         try:
-                            tokendata = jwt.decode(token, "secret_key", algorithms="HS256")
+                            current_role = UserMethods.decode_auth_token(token)
                         except Exception as e:
-                            #return make_response({"ERROR": str(e)}, 401)
                             return make_response(jsonify({'status': 'error',
                                                           'message': str(e),
                                                           'data': None}),401)
                         
-                        current_role = tokendata.get('payload').get('role_id')
+                        
                         
                         query = text("SELECT * FROM backtest.accessibility_view WHERE endpoint= :endpoint ")
                         result = g.session.execute(query, {'endpoint': endpoint})             

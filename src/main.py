@@ -9,13 +9,11 @@ app.add_url_rule("/admin", view_func=admin_api.AdminAPI.as_view("admin_api"))
 app.add_url_rule("/home", view_func=home_api.HomeAPI.as_view("home_api"))
 app.add_url_rule("/login", view_func=login_api.LoginAPI.as_view("login_api"))
 app.add_url_rule("/logout", view_func=logout_api.LogoutAPI.as_view("logout_api"))
-app.add_url_rule("/password_change",view_func= password_change.PasswordChangeAPI.as_view("password_change_api"))
-app.add_url_rule("/password_reset/<token>", view_func= password_reset.PasswordResetAPI.as_view("password_reset_api"))
-app.add_url_rule("/password_reset_request",view_func= password_reset_request.PasswordRestRequestAPI.as_view("password_reset_request_api"))
+app.add_url_rule("/password-change",view_func= password_change.PasswordChangeAPI.as_view("password_change_api"))
+app.add_url_rule("/password-reset/<token>", view_func= password_reset.PasswordResetAPI.as_view("password_reset_api"))
+app.add_url_rule("/password-reset-request",view_func= password_reset_request.PasswordRestRequestAPI.as_view("password_reset_request_api"))
 app.add_url_rule("/signup", view_func=sign_up_api.SignUpAPI.as_view("sign_up_api"))
 app.add_url_rule("/verify/<token>", view_func=verify_api.VerifyUserAPI.as_view("verify_email_api"))
-
-# Need to pass the auth token in response header for each request.
 
 server_config = get_server_config()
 port = server_config.get('port')
