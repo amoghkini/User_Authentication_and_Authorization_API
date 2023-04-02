@@ -4,6 +4,7 @@ from psycopg2.errorcodes import UNIQUE_VIOLATION
 from psycopg2 import errors
 from sqlalchemy import text
 
+from messages.email import Email
 from user.user import User
 from user.user_methods import UserMethods
 from user.user_validations import SignUpUser
@@ -12,65 +13,41 @@ class SignUpAPI(MethodView):
         
     def post(self):
         # Parse the JSON request data
-        
         data = request.get_json()
-        
-        errors = SignUpUser().validate(data)
-        
-        if errors:
-            return errors, 422
-        
+        status_code = None
+            
         try:
+            errors = SignUpUser().validate(data)
+            if errors:
+                status_code = 422
+                raise ValueError(errors)
+            
             first_name = data.get('first_name')
             last_name = data.get('last_name')
             email = data.get('email')
             
-            # Insert the new user into the database
-            try:
-                user = User(email, first_name, last_name)
-                user.password = data.get('password')
-                user.confirm_password = data.get('confirm_password')
-                user.mobile_no = data.get('mobile_no')
-                user.date_of_birth = data.get('date_of_birth')
-                
-                query = text('INSERT INTO backtest.users (first_name, last_name, email_id, password, mobile_no) VALUES (:first_name, :last_name, :email_id, :password, :mobile_no)')
-                g.session.execute(query, {'first_name': first_name, 'last_name': last_name,
-                                  'email_id': email, 'password': user.password, 'mobile_no': user.mobile_no})
-                g.session.commit()
-
-                verify_token = UserMethods.generate_token(email)
-                link = f'''Click here to verify the account: {url_for('verify_email_api', token=verify_token, _external=True)}'''
-                print("Link", link)
-            # UniqueViolation exception not working as of now. Will check this later.
-            except errors.UniqueViolation:
-                print("UNIQUE VIOLATION")
-                raise ValueError("The email address or mobile number is already exist.")
+    
+            user = User(first_name, last_name)
+            user.email = data.get('email')
+            user.password = data.get('password')
+            user.user_name = UserMethods.generate_username(first_name, last_name)
+            user.mobile_no = data.get('mobile_no')
+            user.date_of_birth = data.get('date_of_birth')
             
-            except errors.lookup(UNIQUE_VIOLATION):
-                print("Duplicate entry")
-                #g.session.rollback()
-                raise ValueError("The email address or mobile number is already exist.")
-            
-            except Exception as e:
-                '''
-                from psycopg2._psycopg import sqlstate_errors
-                print(sqlstate_errors.get('23505'))
-                '''
-                
-                g.session.rollback()
-                print("EXCEPTION==",e)
-                raise ValueError("Error while writing the data... Please retry after sometime.")
-
+            UserMethods.sign_up_user(user)
+                                
+            verify_token = UserMethods.generate_token(email) # Generate account activation token.
+            link = f'''Click here to verify the account: {url_for('verify_email_api', token=verify_token, _external=True)}'''
+            Email.send_user_verification_email(link) # Send acccount activation link to given email address.
+    
             # Return a success message
             return make_response(jsonify({'status':'success',
                             'message': 'User created successfully',
-        
                             'data': []}), 201)
         except Exception as e:
-            print(e)
             return make_response(jsonify({'status': 'error',
                             'message': str(e),
-                            'data':None}), 200)
+                            'data':None}), 200 if status_code == None else status_code)
 
 
 #### Curl requests

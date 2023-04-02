@@ -1,5 +1,5 @@
 class UserStatus:
-    CREATED = "Creatd"
+    CREATED = "Created"
     ACTIVATED = "Activated"
     DEACTIVATED = "Deactivated"
     DELETED = "Deleted"

@@ -31,3 +31,43 @@ class SignUpUser(Schema):
         if data['password'] != data['confirm_password']:
             errors['password'] = 'Password and confirm password should be same.'
             raise ValidationError(errors)
+        
+        
+class LoginUser(Schema):
+    email = fields.Str(required=True,
+                       validate=validate.Length(min=2, max=45))
+    password = fields.Str(required=True,
+                          validate=validate.Length(min=2, max=45))
+
+
+class ChangePassword(Schema):
+    email = fields.Str(required=True,
+                       validate=validate.Length(min=2, max=45))
+    old_password = fields.Str(required=True,
+                              validate=validate.Length(min=2, max=45))
+    new_password = fields.Str(required=True,
+                              validate=validate.Length(min=2, max=45))
+    confirm_new_password = fields.Str(required=True,
+                                      validate=validate.Length(min=2, max=45))
+    
+
+    @validates_schema
+    def validate_password_and_confirm_password(self, data, **kwargs):
+        errors = {}
+        if data['new_password'] != data['confirm_new_password']:
+            errors['new_password'] = 'Password and confirm password should be same.'
+            raise ValidationError(errors)
+        
+
+class ResetPassword(Schema):
+    new_password = fields.Str(required=True,
+                              validate=validate.Length(min=2, max=45))
+    confirm_new_password = fields.Str(required=True,
+                                      validate=validate.Length(min=2, max=45))
+
+    @validates_schema
+    def validate_password_and_confirm_password(self, data, **kwargs):
+        errors = {}
+        if data['new_password'] != data['confirm_new_password']:
+            errors['new_password'] = 'Password and confirm password should be same.'
+            raise ValidationError(errors)
