@@ -35,25 +35,17 @@ def configure_app(app: Flask, config_object: BaseConfig) -> None:
 
     @app.before_request
     def before_request():
-        session.permanent = True    # Set new session to use
-        session.modified = True     # reset the session timer on each new request
-
+        
         # Create Session of the SQL Alchemy engine
         g.session = session()
-    
-    #@app.after_request
-    #def after_request(response):
-    #    print("After response")
-    
-    # Need to pass the auth token in response header for each request.
-        
+         
     @app.teardown_appcontext
     def shutdown_session(exception=None):
         session = g.pop('session', None)
         if session is not None:
             session.close()
 
-def configure_logger():
+def configure_logger() -> None:
     server_config = get_server_config()
 
     log_dir = server_config.get('logFileDir')
