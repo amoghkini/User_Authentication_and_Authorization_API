@@ -29,7 +29,6 @@ MANIFEST
 
 # User added ignores
 *.xlsx
-*.txt
 main_old.py
 
 
