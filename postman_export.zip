@@ -1,0 +1,318 @@
+{
+	"info": {
+		"_postman_id": "48b46486-507b-4f39-8ba2-59f0ca11888a",
+		"name": "User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3913507"
+	},
+	"item": [
+		{
+			"name": "Sign up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\" : \"test_first_name\",\r\n    \"last_name\" : \"test_last_name\",\r\n    \"email\" : \"test_email83@gamil.com\",\r\n    \"password\" : \"Password@123\",\r\n    \"confirm_password\" : \"Password@123\",\r\n    \"gender\" : \"Male\",\r\n    \"mobile_no\" : \"9876543283\",\r\n    \"date_of_birth\" : \"1970-01-31\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:5000/signup",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"test_email82@gamil.com\",\r\n    \"password\" : \"Password@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:5000/login",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "home",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjo5MSwiZW1haWxfaWQiOiJ0ZXN0X2VtYWlsODJAZ2FtaWwuY29tIiwiZmlyc3RfbmFtZSI6InRlc3RfZmlyc3RfbmFtZSIsInJvbGVfaWQiOjR9LCJleHAiOjE2ODAzNzkzMDF9.t5p2Fpz5iEkN-iy4B7AYIo5Pt27NsQOmy5hD72uBkwE",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "127.0.0.1:5000/home",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"home"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjo5MSwiZW1haWxfaWQiOiJ0ZXN0X2VtYWlsODJAZ2FtaWwuY29tIiwiZmlyc3RfbmFtZSI6InRlc3RfZmlyc3RfbmFtZSIsInJvbGVfaWQiOjR9LCJleHAiOjE2ODAzNzkzMDF9.t5p2Fpz5iEkN-iy4B7AYIo5Pt27NsQOmy5hD72uBkwE",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "127.0.0.1:5000/admin",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verify account",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:5000/verify/eyJhbGciOiJIUzUxMiIsImlhdCI6MTY4MDIwMTg1MiwiZXhwIjoxNjgwMjAxOTUyfQ.eyJ1c2VyX2lkIjoidGVzdF9lbWFpbDY1In0.y95R0yS93vrV-cr--BH1BnKf10C7qn381seMaKvgrYgz0NGZad9n8ehgwcTaIzCyQ2ICaMyKcE9WxIazZJaITA",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"verify",
+						"eyJhbGciOiJIUzUxMiIsImlhdCI6MTY4MDIwMTg1MiwiZXhwIjoxNjgwMjAxOTUyfQ.eyJ1c2VyX2lkIjoidGVzdF9lbWFpbDY1In0.y95R0yS93vrV-cr--BH1BnKf10C7qn381seMaKvgrYgz0NGZad9n8ehgwcTaIzCyQ2ICaMyKcE9WxIazZJaITA"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:5000/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjo5MSwiZW1haWxfaWQiOiJ0ZXN0X2VtYWlsODJAZ2FtaWwuY29tIiwiZmlyc3RfbmFtZSI6InRlc3RfZmlyc3RfbmFtZSIsInJvbGVfaWQiOjR9LCJleHAiOjE2ODAzNzkzMDF9.t5p2Fpz5iEkN-iy4B7AYIo5Pt27NsQOmy5hD72uBkwE",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "127.0.0.1:5000/logout",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "password reset request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"test_email83@gamil.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:5000/password-reset-request",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"password-reset-request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "password reset",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:5000/verify?token=eyJhbGciOiJIUzUxMiIsImlhdCI6MTY4MDE5NzA5MiwiZXhwIjoxNjgwMTk4ODkyfQ.eyJ1c2VyX2lkIjoidGVzdF9lbWFpbDYwIn0.zRVKJFV2TzO0zGuLVxvai8iSCaarPNJT45U_LXbmXXGoROHvHH5lRa_eGIsWCbKzloBjqX_OKVQEAixhYoQTuQ",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"verify"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsImlhdCI6MTY4MDE5NzA5MiwiZXhwIjoxNjgwMTk4ODkyfQ.eyJ1c2VyX2lkIjoidGVzdF9lbWFpbDYwIn0.zRVKJFV2TzO0zGuLVxvai8iSCaarPNJT45U_LXbmXXGoROHvHH5lRa_eGIsWCbKzloBjqX_OKVQEAixhYoQTuQ"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Password Reset",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"new_password\" : \"Password@123\",\r\n    \"confirm_new_password\" : \"Password@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:5000/password-reset/eyJhbGciOiJIUzUxMiIsImlhdCI6MTY4MDM4NzY1OCwiZXhwIjoxNjgwMzg4NjU4fQ.eyJ1c2VyX2lkIjoidGVzdF9lbWFpbDgzQGdhbWlsLmNvbSJ9.lOaxSswiIQEAn2um0fDjPgym2pRNxGL1mzGQ4gZQ8jByuHYNPtaM_ukVC2TSBglFLnJefIN6kvk8p4UzCx9Fpw",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"password-reset",
+						"eyJhbGciOiJIUzUxMiIsImlhdCI6MTY4MDM4NzY1OCwiZXhwIjoxNjgwMzg4NjU4fQ.eyJ1c2VyX2lkIjoidGVzdF9lbWFpbDgzQGdhbWlsLmNvbSJ9.lOaxSswiIQEAn2um0fDjPgym2pRNxGL1mzGQ4gZQ8jByuHYNPtaM_ukVC2TSBglFLnJefIN6kvk8p4UzCx9Fpw"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Password Change",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjo5MiwiZW1haWxfaWQiOiJ0ZXN0X2VtYWlsODNAZ2FtaWwuY29tIiwiZmlyc3RfbmFtZSI6InRlc3RfZmlyc3RfbmFtZSIsInJvbGVfaWQiOjR9LCJleHAiOjE2ODAzODUxMjZ9.AvIrOcNQiUnk1pR3jTvOUtLuwjguoylD95cObHcYD_c",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"test_email83@gamil.com\",\r\n    \"old_password\": \"Password@123\",\r\n    \"new_password\" : \"Password@1234\",\r\n    \"confirm_new_password\" : \"Password@1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:5000/password-change",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"password-change"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
