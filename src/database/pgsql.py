@@ -12,6 +12,7 @@ def get_engine(url):
     return engine
 
 def get_session():
+    
     engine = get_engine(ProdConfig.SQLALCHEMY_DATABASE_URI)
     session = sessionmaker(bind=engine)
     return session

@@ -1,6 +1,7 @@
 import os
 from flask import Flask, session, g
 
+from app.urls import register_ruls
 from config.config import get_server_config, BaseConfig, DevConfig, ProdConfig, TEMPLATE_FOLDER, STATIC_FOLDER, get_env
 from database.pgsql import session
 from utils.logger import config_root_logger
@@ -24,6 +25,7 @@ def _create_app(config_object: BaseConfig, **kwargs) -> Flask:
     """
     app = Flask(__name__,**kwargs)
     configure_app(app,config_object)
+    app = register_ruls(app)
     return app
 
 
@@ -45,6 +47,10 @@ def configure_app(app: Flask, config_object: BaseConfig) -> None:
         if session is not None:
             session.close()
 
+    @app.after_request
+    def after_request(response):
+        return response
+    
 def configure_logger() -> None:
     server_config = get_server_config()
 
